@@ -17,6 +17,11 @@ on:
         required: true
         type: boolean
         default: true
+      build_ace3pro:
+        description: 'Build ace3 Pro kernel?'
+        required: true
+        type: boolean
+        default: true
       build_opopen:
         description: 'Build OP Open kernel?'
         required: true
@@ -37,6 +42,10 @@ jobs:
     uses: ./.github/workflows/build-kernel-op12.yml
     secrets: inherit
     if: ${{ inputs.build_op12 }}
+  build-kernel-ace3pro:
+    uses: ./.github/workflows/build-kernel-ace3pro.yml
+    secrets: inherit
+    if: ${{ inputs.build_ace3pro }}
   build-kernel-opopen:
     uses: ./.github/workflows/build-kernel-opopen.yml
     secrets: inherit
@@ -47,6 +56,7 @@ jobs:
     needs:
         - build-kernel-op11
         - build-kernel-op12
+        - build-kernel-ace3pro
         - build-kernel-opopen
     if: ${{ inputs.make_release }}
     env:
